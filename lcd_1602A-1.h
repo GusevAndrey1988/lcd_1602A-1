@@ -59,11 +59,25 @@ void lcd_init(enum lcd_function fcn, enum lcd_display_on_off disp,
 void lcd_set_ddram_address(uint8_t address);
 
 /**
+ * @brief Установка позиции в CGRAM для добавления нового символа
+ * @param -
+ * @return -
+ */
+void lcd_set_cgram_address(uint8_t address);
+
+/**
  * @brief Отобразить строку
  * @param -
  * @return -
  */
 void lcd_draw_string(const char* str);
+
+/**
+ * @brief Отобразить символ
+ * @param -
+ * @return -
+ */
+void lcd_draw_symbol(uint8_t c);
 
 /**
  * @brief Очистка дисплея
@@ -107,5 +121,12 @@ void lcd_set_shift(enum lcd_shift mod);
  * @return -
  */
 void lcd_set_function(enum lcd_function mod);
+
+/**
+ * @brief Записывает новый символ в CGRAM
+ * @param -
+ * @return -
+ */
+void lcd_add_symbol(const uint8_t sym[8]);
 
 #endif //_LCD_1602A_1_

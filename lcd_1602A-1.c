@@ -322,6 +322,13 @@ void lcd_set_ddram_address(uint8_t address)
 	write_command_4(address | 0x80);
 }
 
+void lcd_set_cgram_address(uint8_t address)
+{
+	while (is_busy());
+	
+	write_command_4(address | 0x40);
+}
+
 void lcd_draw_string(const char* str)
 {
 	uint8_t data = 0;
@@ -329,5 +336,20 @@ void lcd_draw_string(const char* str)
 		data = *str++;
 		while (is_busy());
 		write_data_4(data);
+	}
+}
+
+void lcd_draw_symbol(uint8_t c)
+{
+	while (is_busy());
+	
+	write_data_4(c);
+}
+
+void lcd_add_symbol(const uint8_t sym[8])
+{
+	for (uint8_t i = 0; i != 8; ++i) {
+		while (is_busy());
+		write_data_4(sym[i]);
 	}
 }
