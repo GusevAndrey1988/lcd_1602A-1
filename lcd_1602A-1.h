@@ -11,45 +11,34 @@ DDRAM ADDRESS:
 
 #include "lcd_1602A-1_options.h"
 
-enum lcd_entry_mod {
-	LCD_EM_INCREMENT   = 0x01,
-	//LCD_EM_DECREMENT
-	LCD_EM_SHIFT_ON    = 0x02,
-	//LCD_EM_SHIFT_OFF
-};
+#define LCD_CURSOR  0x00
+#define LCD_DISPLAY 0x01
 
-enum lcd_display_on_off {
-	LCD_D_ON               = 0x01,
-	//LCD_D_OFF            
-	LCD_D_CURSOR_ON        = 0x02,
-	//LCD_D_CURSOR_OFF    
-	LCD_D_CURSOR_BLINK_ON  = 0x04
-	//LCD_D_CURSOR_BLINK_OFF 
-};
+#define LCD_DECREASE 0x00
+#define LCD_INCREASE 0x01
 
-enum lcd_function {
-	LCD_FCN_8_BIT     = 0x01,
-	//LCD_FCN_4_BIT 
-	//LCD_FCN_1_LINE
-	LCD_FCN_2_LINE    = 0x02,
-	LCD_FCN_FONT_5x11 = 0x04
-	//LCD_FCN_FONT_5x8
-};
+#define LCD_LEFT  0x00
+#define LCD_RIGHT 0x01
 
-enum lcd_shift {
-	LCD_SH_CURSOR  = 0x01,
-	LCD_SH_DISPLAY = 0x02,
-	LCD_SH_RIGHT   = 0x04,
-	LCD_SH_LEFT    = 0x08
-};
+#define LCD_OFF 0x00
+#define LCD_ON  0x01
+
+//|0|1|2|
+//|B|L|F|
+#define LCD_CFG_4_BIT    0x00
+#define LCD_CFG_8_BIT    0x01
+#define LCD_CFG_1_LINE   0x00
+#define LCD_CFG_2_LINE   0x02
+#define LCD_CFG_FNT_5x8  0x00
+#define LCD_CFG_FNT_5x11 0x04
 
 /**
  * @brief Инициализация дисплея
  * @param -
  * @return -
  */
-void lcd_init(enum lcd_function fcn, enum lcd_display_on_off disp,
-	enum lcd_entry_mod entry);
+void lcd_init(uint8_t lcd_cfg, uint8_t display_on, uint8_t cursor_on, uint8_t blink_on,
+	uint8_t source, uint8_t direction);
 
 /**
  * @brief Установка позиции курсора
@@ -57,13 +46,6 @@ void lcd_init(enum lcd_function fcn, enum lcd_display_on_off disp,
  * @return -
  */
 void lcd_set_ddram_address(uint8_t address);
-
-/**
- * @brief Установка позиции в CGRAM для добавления нового символа
- * @param -
- * @return -
- */
-void lcd_set_cgram_address(uint8_t address);
 
 /**
  * @brief Отобразить строку
@@ -99,34 +81,34 @@ void lcd_return_home();
  * @param -
  * @return -
  */
-void lcd_set_entry_mod(enum lcd_entry_mod mod);
+void lcd_set_entry_mod(uint8_t source, uint8_t direction);
 
 /**
  * @brief Включает/выключает дисплей, устанавливает отабражение курсора.
  * @param -
  * @return -
  */
-void lcd_set_display_on_off(enum lcd_display_on_off mod);
+void lcd_on_off(uint8_t display, uint8_t cursor, uint8_t cursor_blink);
 
 /**
  * @brief Сдвигает курсор/дисплей в заданную сторону.
  * @param -
  * @return -
  */
-void lcd_set_shift(enum lcd_shift mod);
+void lcd_set_shift(uint8_t source, uint8_t direction);
 
 /**
- * @brief Устанавливает параметры дисплея
+ * @brief Устанавливает параметры дисплея (Function Set)
  * @param -
  * @return -
  */
-void lcd_set_function(enum lcd_function mod);
+void lcd_set_config(uint8_t lcd_cfg);
 
 /**
  * @brief Записывает новый символ в CGRAM
  * @param -
  * @return -
  */
-void lcd_add_symbol(const uint8_t sym[8]);
+void lcd_add_symbol(uint8_t address, const uint8_t sym[8]);
 
 #endif //_LCD_1602A_1_
