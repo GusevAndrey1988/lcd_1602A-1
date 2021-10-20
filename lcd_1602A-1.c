@@ -128,8 +128,10 @@ uint8_t _receive_byte()
 uint8_t _receive_data_byte()
 {
 	_rs_on();
-	return _receive_byte();
+	uint8_t data = _receive_byte();
 	_rs_off();
+	
+	return data;
 }
 
 //Прочитать команду
